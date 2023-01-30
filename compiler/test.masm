@@ -1,0 +1,41 @@
+
+; Stack
+.ORG $0100
+
+; Programm Space
+.ORG $4a00
+	
+:MAIN
+	;Init Stack
+	lda (bx)
+	lda #ff
+	mov sp,ax
+	lda #00
+	mov cx,ax
+	lda $1a
+:LOOP
+	jmp LOOP
+	hlt
+	
+.ORG $e000
+	sta $12f5,cx
+:INTERRUPT
+	adc #12
+	lda $a000
+	sta $f0,cx
+	inc cx
+	cmp cx,#0b
+	jne INTERRUPT
+	je $f000
+.ORG $f000
+:END
+	rts
+	
+	
+.TEXT $c000 'hello world!'
+.DATA $d000 0a 12 34 12 ff
+
+; Vectors
+.IRQ INTERRUPT
+.NMI $e000
+.RES MAIN

@@ -1,0 +1,23 @@
+; Main
+.ORG $1000
+:MAIN
+	; cls
+	lda $ff01
+	; stack
+	lda #ff
+	mov sp,ax
+	:LOOP
+		jmp LOOP
+		hlt
+
+.ORG $2000
+:RESET
+	jmp MAIN
+:INTERRUPT
+	lda $ff02
+	sta $ff00
+	rts
+
+; VECTORS
+.RES RESET
+.IRQ INTERRUPT

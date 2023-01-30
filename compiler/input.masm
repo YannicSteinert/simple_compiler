@@ -1,0 +1,22 @@
+; Main
+.ORG $1000
+:MAIN
+lda #0b
+mov cx,ax
+
+:LOOP
+	lda $9000,cx
+	; PRINT VALUE
+	sta $a000
+	cmp cx,#00
+	jeq TRAP
+	dec cx
+	jmp LOOP
+
+:TRAP
+	jmp TRAP
+	hlt
+
+.TEXT $9000 'Hello World!'
+
+.RES MAIN
